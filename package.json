@@ -1,0 +1,38 @@
+{
+  "name": "parcel-delivery-system",
+  "version": "1.0.0",
+  "description": "Parcel Delivery System - Full Stack Application",
+  "scripts": {
+    "start": "npm run start:all",
+    "start:all": "npm run start:backend & npm run start:web & wait",
+    "start:all:mobile": "npm run start:backend & npm run start:web & npm run start:mobile & wait",
+    "start:backend": "cd backend && npm run dev",
+    "start:web": "cd web && npm run dev",
+    "start:mobile": "cd mobile && ./start-mobile.sh || (cd mobile && npm start)",
+    "start:backend:only": "cd backend && npm run dev",
+    "start:web:only": "cd web && npm run dev",
+    "start:mobile:only": "cd mobile && npm start",
+    "seed": "cd backend && npm run seed",
+    "setup": "npm run install:all && npm run seed",
+    "setup:run": "npm run stop && npm run install:all && npm run seed && npm run setup:mobile:env && npm run start:all:mobile",
+    "setup:mobile:env": "cd mobile && CURRENT_IP=$(ipconfig getifaddr en0 2>/dev/null || ifconfig | grep 'inet ' | grep -v 127.0.0.1 | awk '{print $2}' | head -1) && if [ -n \"$CURRENT_IP\" ]; then echo \"EXPO_PUBLIC_API_URL=http://${CURRENT_IP}:5000/api\" > .env && echo \"✅ Mobile .env set with IP: $CURRENT_IP\"; else echo \"⚠️ Could not detect IP for mobile\"; fi",
+    "setup:run:web": "npm run stop && npm run install:all && npm run seed && npm start",
+    "install:all": "npm run install:backend && npm run install:web && npm run install:mobile",
+    "install:backend": "cd backend && npm install",
+    "install:web": "cd web && npm install",
+    "install:mobile": "cd mobile && npm install",
+    "restart": "npm run stop && sleep 2 && npm run start",
+    "stop": "pkill -f 'node.*server.js' && pkill -f 'vite' && pkill -f 'nodemon' && pkill -f 'expo' || true"
+  },
+  "keywords": [
+    "parcel",
+    "delivery",
+    "express",
+    "react",
+    "react-native",
+    "expo"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+
